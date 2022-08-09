@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+    td { padding: 10px; }
+        body { font-family:arial; margin: 20px; }
+        .bullish {background: green; color: white;}
+        .bearish {background: red; color: white;}
+    </style>
+
+    <meta charset="UTF-8">
+    <title>Test website</title>
+</head>
+
+<body>
+    <h1> Candlestick Scaner </h1>
+
+    <form>
+        <select name="pattern">
+
+            <option value="">-- Select a Pattern --</option>
+            {% for key in candlestick_patterns %}
+
+                <option value="{{key}}" {% if pattern == key %}
+                        selected="selected"{% endif %}>
+                    {{ candlestick_patterns[key] }}
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+         <input type="submit" value="scan"/>
+
+        <table>
+            <tr>
+                <th> Trading Pair </th>
+                <th> Crypto name </th>
+                <th> Signal</th>
+            </tr>
+            {% for crypto_name in crypto_dict %}
+                {% if crypto_dict[crypto_name][pattern] %}
+                <tr>
+                    <td>{{ crypto_name }}</td>
+                    <td>{{crypto_dict[crypto_name]['crypto']}}</td>
+                    <td class="{{crypto_dict[crypto_name][pattern]}}">{{crypto_dict[crypto_name][pattern]}}</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <img src =     '''enter chart in loop''' />
+                    </td>
+                </tr>
+                {% endif %}
+
+            {% endfor %}
+        </table>
+    </form>
+
+
+
+</body>
+</html>
