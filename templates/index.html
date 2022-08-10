@@ -35,6 +35,7 @@
 
          <input type="submit" value="scan"/>
 
+
         <table>
             <tr>
                 <th> Trading Pair </th>
@@ -47,9 +48,8 @@
 
                 {% if crypto_dict[symbol][pattern] %}
 
-                {{symbol}}
-
-                {{crypto_dict[symbol]['crypto']}}
+                    {{df_after_bull['ticker']}}
+                    {{df_after_bear['ticker'][symbol]}}
 
 
 
@@ -63,7 +63,6 @@
                     <td>{{ symbol }}</td>
                     <td>{{crypto_dict[symbol]['crypto']}}</td>
                     <td class="{{crypto_dict[symbol][pattern]}}">{{crypto_dict[symbol][pattern]}}</td>
-
 
                 </tr>
                 <tr>

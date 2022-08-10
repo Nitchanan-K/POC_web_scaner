@@ -1,4 +1,6 @@
 import csv
+
+import pandas as pd
 from flask import Flask, render_template, request
 from patterns_list import candlestick_patterns
 import talib
@@ -15,8 +17,12 @@ app = Flask(__name__)
 def index():
     pattern = request.args.get('pattern', None)
     crypto_dict = {}
+
     df_main = pd.DataFrame()
+    df_after_bull = pd.DataFrame()
+    df_after_bear = pd.DataFrame()
     datafiles = os.listdir('dataset/daily')
+
 
     # get data all sets for plot chart
 
@@ -50,6 +56,8 @@ def index():
     with open('dataset/crypto_list.csv') as f:
         for row in csv.reader(f):
             crypto_dict[row[0]] = {'crypto': row[0].split('-')[0]+"-USD-"}
+    #print(crypto_dict)
+
 
 
     if pattern:
@@ -68,17 +76,30 @@ def index():
                 #print(last)
                 if last > 0:
                     crypto_dict[symbol][pattern] = 'bullish' # set pattern value to use
+                    print(crypto_dict[symbol])
 
+                    df_after_bull = (df_main.loc[crypto_dict[symbol]['crypto'] + "1"])
+                    #print(df_after_bull)
                 elif last < 0 :
                     crypto_dict[symbol][pattern] = 'bearish'
+                    #print(crypto_dict[symbol]['crypto'])
+                    print(crypto_dict[symbol])
 
+                    df_after_bear = (df_main.loc[crypto_dict[symbol]['crypto']+"1"])
+                    #print(df_after_bear)
                 else:
                     crypto_dict[symbol][pattern] = None
+
 
             except:
                 pass
 
-    return render_template('index.html', candlestick_patterns=candlestick_patterns,crypto_dict=crypto_dict,pattern=pattern,df_main=df_main)
+
+    print(df_after_bull)
+    print(df_after_bear)
+
+    return render_template('index.html', candlestick_patterns=candlestick_patterns,crypto_dict=crypto_dict,pattern=pattern,df_main=df_main
+                           ,df_after_bear=df_after_bear,df_after_bull=df_after_bull)
 
 
 @app.route("/snapshot")
