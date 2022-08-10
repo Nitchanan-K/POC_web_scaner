@@ -15,10 +15,41 @@ app = Flask(__name__)
 def index():
     pattern = request.args.get('pattern', None)
     crypto_dict = {}
+    df_main = pd.DataFrame()
+    datafiles = os.listdir('dataset/daily')
 
+    # get data all sets for plot chart
+
+
+    for filesname in datafiles:
+        df = pd.read_csv(f'dataset/daily/{filesname}')
+        df.rename(columns={'Unnamed: 0': 'date'}, inplace=True)
+        df_main = pd.concat([df_main,df.tail(5)])
+    ee = 0
+    result = []
+    for n in df_main['ticker']:
+        ee += 1
+        result.append(ee)
+        if ee == 5:
+            ee = 0
+    df_main['Result'] = result
+    df_main['New_col'] = df_main['ticker'] + "-" + df_main['Result'].astype(str)
+    df_main.set_index('New_col', inplace=True)
+    print(df_main)
+
+    '''
+    for n in range(1):
+        var = 0
+        for i in range(5):
+            var += 1
+        df_main.rename(index=lambda s: s + f"-{var+1}" ,inplace=True)
+    '''
+
+
+    # make value for crypto key name as that crypto without usd
     with open('dataset/crypto_list.csv') as f:
         for row in csv.reader(f):
-            crypto_dict[row[0]] = {'crypto': row[0].split('-')[0]}
+            crypto_dict[row[0]] = {'crypto': row[0].split('-')[0]+"-USD-"}
 
 
     if pattern:
@@ -47,7 +78,7 @@ def index():
             except:
                 pass
 
-    return render_template('index.html', candlestick_patterns=candlestick_patterns,crypto_dict=crypto_dict,pattern=pattern)
+    return render_template('index.html', candlestick_patterns=candlestick_patterns,crypto_dict=crypto_dict,pattern=pattern,df_main=df_main)
 
 
 @app.route("/snapshot")

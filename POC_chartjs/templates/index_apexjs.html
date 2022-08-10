@@ -14,22 +14,51 @@
 
 
         <script>
+        {% for n in range(1) %}
+
              var options = {
             series: [{
-            data: [{
-                      x: new Date(2016, 01, 01),
-                      y: [51.98, 56.29, 51.59, 53.85]
-                    },
-                    {
-                      x: new Date(2016, 02, 01),
-                      y: [52.98, 57.29, 52.59, 54.85]
-                    }
 
 
 
+           <!-- {{df_main['date'][n]}} -->
 
-                  ]
-            }],
+            <!-- {{df_main['open'][n]}} {{df_main['high'][n]}} {{df_main['low'][n]}} {{df_main['close'][n]}} -->
+
+
+                data: [
+
+                        {
+                          x: new Date({{df_main['date'][n][0:4]}}, {{df_main['date'][n][5:7]}}, {{df_main['date'][n][8:10]}}),
+                          y: [{{df_main['open'][n]}}, {{df_main['high'][n]}}, {{df_main['low'][n]}}, {{df_main['close'][n]}}]
+
+                        },
+                        {
+                          x: new Date({{df_main['date'][n+1][0:4]}}, {{df_main['date'][n+1][5:7]}}, {{df_main['date'][n+1][8:10]}}),
+                          y: [{{df_main['open'][n+1]}}, {{df_main['high'][n+1]}}, {{df_main['low'][n+1]}}, {{df_main['close'][n+1]}}]
+
+                        },
+                        {
+                          x: new Date({{df_main['date'][n+2][0:4]}}, {{df_main['date'][n+2][5:7]}}, {{df_main['date'][n+2][8:10]}}),
+                          y: [{{df_main['open'][n+2]}}, {{df_main['high'][n+2]}}, {{df_main['low'][n+2]}}, {{df_main['close'][n+2]}}]
+
+                        },
+                        {
+                          x: new Date({{df_main['date'][n+3][0:4]}}, {{df_main['date'][n+3][5:7]}}, {{df_main['date'][n+3][8:10]}}),
+                          y: [{{df_main['open'][n+3]}}, {{df_main['high'][n+3]}}, {{df_main['low'][n+3]}}, {{df_main['close'][n+3]}}]
+
+                        },
+                        {
+                          x: new Date({{df_main['date'][n+4][0:4]}}, {{df_main['date'][n+4][5:7]}}, {{df_main['date'][n+4][8:10]}}),
+                          y: [{{df_main['open'][n+4]}}, {{df_main['high'][n+4]}}, {{df_main['low'][n+4]}}, {{df_main['close'][n+4]}}]
+
+                        }
+                      ]
+
+
+
+                       }],
+
             chart: {
             type: 'candlestick',
             height: 350
@@ -46,20 +75,23 @@
                 enabled: true
               }
             }
-            };
+            };{% endfor %}
 
             var chart = new ApexCharts(document.querySelector("#chart"), options);
 
             chart.render();
 
+
         </script>
     </div>
     <div>
+        {% for n in range(5) %}
 
+            {{df_main['date'][n][0:4]}} {{df_main['date'][n][5:7]}} {{df_main['date'][n][8:10]}}
+            {{df_main['open'][n]}}
 
-            {{ohlc_dict}}
-
-        </div>
+        {% endfor %}
+    </div>
 
 </div>
 
