@@ -46,32 +46,34 @@
                 <th> Trading Pair </th>
                 <th> Crypto name </th>
                 <th> Signal</th>
-                <th> Chart </th>
             </tr>
 
 
-
             {% for symbol in crypto_dict %}
-
                 {% if crypto_dict[symbol][pattern] %}
 
 
-
+                    {% set a = crypto_dict[symbol]['crypto'] %}
                     {% set b = crypto_dict[symbol]['crypto'].split(';') %}
-                    {% set a = [crypto_dict[symbol]['crypto']] %}
 
-                <!--
+
+
                 <tr>
-                 <td>{{ symbol }}</td>
+
+                    <td>{{ symbol }}</td>
                     <td>{{crypto_dict[symbol]['crypto']}}</td>
                     <td class="{{crypto_dict[symbol][pattern]}}">{{crypto_dict[symbol][pattern]}}</td>
 
-                </tr>-->
-                <tr>
-                    {% for n in range(1) %}
+                </tr>
 
-                    <td id="chart" class="col-md-5"  >
+
+                <tr>
+                    <td id="chart" class="col-md-5">
+
+
                         <script>
+                        {% for n in range(1) %}
+
 
                              var options = {
                              series: [{
@@ -79,28 +81,28 @@
                                 data: [
 
                                         {
-                                          x: new Date({{df_main.loc[a[0]+(n+1)|string]['date'][0:4]}}, {{df_main.loc[a[0]+(n+1)|string]['date'][5:7]}}, {{df_main.loc[a[0]+(n+1)|string]['date'][8:10]}}),
-                                          y: [{{df_main.loc[a[0]+(n+1)|string]['open']}}, {{df_main.loc[a[0]+(n+1)|string]['high']}}, {{df_main.loc[a[0]+(n+1)|string]['low']}}, {{df_main.loc[a[0]+(n+1)|string]['close']}}]
+                                          x: new Date({{df_main.loc[a+(n+1)|string]['date'][0:4]}}, {{df_main.loc[a+(n+1)|string]['date'][5:7]}}, {{df_main.loc[a+(n+1)|string]['date'][8:10]}}),
+                                          y: [{{df_main.loc[a+(n+1)|string]['open']}}, {{df_main.loc[a+(n+1)|string]['high']}}, {{df_main.loc[a+(n+1)|string]['low']}}, {{df_main.loc[a+(n+1)|string]['close']}}]
 
                                         },
                                         {
-                                          x: new Date({{df_main.loc[a[0]+(n+2)|string]['date'][0:4]}}, {{df_main.loc[a[0]+(n+2)|string]['date'][5:7]}}, {{df_main.loc[a[0]+(n+2)|string]['date'][8:10]}}),
-                                          y: [{{df_main.loc[a[0]+(n+2)|string]['open']}}, {{df_main.loc[a[0]+(n+2)|string]['high']}}, {{df_main.loc[a[0]+(n+2)|string]['low']}}, {{df_main.loc[a[0]+(n+2)|string]['close']}}]
+                                          x: new Date({{df_main.loc[a+(n+2)|string]['date'][0:4]}}, {{df_main.loc[a+(n+2)|string]['date'][5:7]}}, {{df_main.loc[a+(n+2)|string]['date'][8:10]}}),
+                                          y: [{{df_main.loc[a+(n+2)|string]['open']}}, {{df_main.loc[a+(n+2)|string]['high']}}, {{df_main.loc[a+(n+2)|string]['low']}}, {{df_main.loc[a+(n+2)|string]['close']}}]
 
                                         },
                                         {
-                                          x: new Date({{df_main.loc[a[0]+(n+3)|string]['date'][0:4]}}, {{df_main.loc[a[0]+(n+3)|string]['date'][5:7]}}, {{df_main.loc[a[0]+(n+3)|string]['date'][8:10]}}),
-                                          y: [{{df_main.loc[a[0]+(n+3)|string]['open']}}, {{df_main.loc[a[0]+(n+3)|string]['high']}}, {{df_main.loc[a[0]+(n+3)|string]['low']}}, {{df_main.loc[a[0]+(n+3)|string]['close']}}]
+                                          x: new Date({{df_main.loc[a+(n+3)|string]['date'][0:4]}}, {{df_main.loc[a+(n+3)|string]['date'][5:7]}}, {{df_main.loc[a+(n+3)|string]['date'][8:10]}}),
+                                          y: [{{df_main.loc[a+(n+3)|string]['open']}}, {{df_main.loc[a+(n+3)|string]['high']}}, {{df_main.loc[a+(n+3)|string]['low']}}, {{df_main.loc[a+(n+3)|string]['close']}}]
 
                                         },
                                         {
-                                          x: new Date({{df_main.loc[a[0]+(n+4)|string]['date'][0:4]}}, {{df_main.loc[a[0]+(n+4)|string]['date'][5:7]}}, {{df_main.loc[a[0]+(n+4)|string]['date'][8:10]}}),
-                                          y: [{{df_main.loc[a[0]+(n+4)|string]['open']}}, {{df_main.loc[a[0]+(n+4)|string]['high']}}, {{df_main.loc[a[0]+(n+4)|string]['low']}}, {{df_main.loc[a[0]+(n+4)|string]['close']}}]
+                                          x: new Date({{df_main.loc[a+(n+4)|string]['date'][0:4]}}, {{df_main.loc[a+(n+4)|string]['date'][5:7]}}, {{df_main.loc[a+(n+4)|string]['date'][8:10]}}),
+                                          y: [{{df_main.loc[a+(n+4)|string]['open']}}, {{df_main.loc[a+(n+4)|string]['high']}}, {{df_main.loc[a+(n+4)|string]['low']}}, {{df_main.loc[a+(n+4)|string]['close']}}]
 
                                         },
                                         {
-                                          x: new Date({{df_main.loc[a[0]+(n+5)|string]['date'][0:4]}}, {{df_main.loc[a[0]+(n+5)|string]['date'][5:7]}}, {{df_main.loc[a[0]+(n+5)|string]['date'][8:10]}}),
-                                          y: [{{df_main.loc[a[0]+(n+5)|string]['open']}}, {{df_main.loc[a[0]+(n+5)|string]['high']}}, {{df_main.loc[a[0]+(n+5)|string]['low']}}, {{df_main.loc[a[0]+(n+5)|string]['close']}}]
+                                          x: new Date({{df_main.loc[a+(n+5)|string]['date'][0:4]}}, {{df_main.loc[a+(n+5)|string]['date'][5:7]}}, {{df_main.loc[a+(n+5)|string]['date'][8:10]}}),
+                                          y: [{{df_main.loc[a+(n+5)|string]['open']}}, {{df_main.loc[a+(n+5)|string]['high']}}, {{df_main.loc[a+(n+5)|string]['low']}}, {{df_main.loc[a+(n+5)|string]['close']}}]
 
                                         }
                                       ]
@@ -112,7 +114,7 @@
                                                         height: 350
                                                             },
                                                         title: {
-                                                          text: '{{ symbol }} ({{crypto_dict[symbol][pattern]}})',
+                                                          text: '{{ symbol }}',
                                                           align: 'left'
                                                         },
                                                         xaxis: {
@@ -124,15 +126,17 @@
                                                           }
                                                         }
                                                         };
-
+                             {% endfor %}
                                                         var chart = new ApexCharts(document.querySelector("#chart"), options);
 
                                                         chart.render();
 
                             </script>
-                    </td>
-                    {% endfor %}
 
+
+
+
+                    </td>
                 </tr>
 
 
@@ -140,12 +144,10 @@
 
 
 
+
+
                 {% endif %}
-
-
-
             {% endfor %}
-
         </table>
 
 </body>

@@ -19,9 +19,6 @@ def index():
     crypto_dict = {}
 
     df_main = pd.DataFrame()
-    df_after_bull = pd.DataFrame()
-    df_after_bear = pd.DataFrame()
-    final_df_bull = pd.DataFrame()
     datafiles = os.listdir('dataset/daily')
 
 
@@ -58,10 +55,7 @@ def index():
     #print(crypto_dict)
 
 #######################################################################################################################
-    df_after_bull_after_sum = pd.DataFrame()
-    df_after_bull_1 = []
-    df_after_bull_2 = []
-    list_symbol_bull = []
+
     # Run to scan candlestick
 
     if pattern:
@@ -83,30 +77,11 @@ def index():
                 if last > 0:
                     crypto_dict[symbol][pattern] = 'bullish' # set pattern value to use
                     print(crypto_dict[symbol],"\n")
-                    var_str = (crypto_dict[symbol]['crypto'])
 
-
-                    '''
-                    df_after_bull_1 = (df_main.loc[[crypto_dict[symbol]['crypto'] + "1"],:]),\
-                                        (df_main.loc[[crypto_dict[symbol]['crypto'] + "2"],:]),\
-                                        (df_main.loc[[crypto_dict[symbol]['crypto'] + "3"],:]),\
-                                        (df_main.loc[[crypto_dict[symbol]['crypto'] + "4"],:]),\
-                                        (df_main.loc[[crypto_dict[symbol]['crypto'] + "5"],:])
-
-                    df_after_bull_2.append(df_after_bull_1)
-
-                    df_after_bull = pd.concat(df_after_bull_2)
-                    '''
-                    #print(df_after_bull_1,df_after_bull_2)
-                    #print(df_after_bull)
-                    #print(df_after_bull_after_sum,"df_after_bull_after_sum")
 
                 elif last < 0 :
                     crypto_dict[symbol][pattern] = 'bearish'
-                    #print(crypto_dict[symbol]['crypto'])
                     print(crypto_dict[symbol],"\n")
-                    #df_after_bear = (df_main.loc[crypto_dict[symbol]['crypto']+"1"])
-                    #print(df_after_bear)
 
                 else:
                     crypto_dict[symbol][pattern] = None
@@ -115,11 +90,6 @@ def index():
             except:
                 pass
 
-
-
-    #print(df_after_bull,"\nthis print after try end ")
-    #print("between bf bull bear")
-    #print(df_after_bear,"\nthis print after try end")
 
     return render_template('index.html', candlestick_patterns=candlestick_patterns,crypto_dict=crypto_dict,pattern=pattern,df_main=df_main
 
