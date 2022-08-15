@@ -2,7 +2,7 @@ import  os,pandas
 # improt plot
 import  plotly.graph_objects as go
 
-symbols = ['ETH']
+symbols = ['symbol']
 
 for filename in os.listdir('datasets/daily_07-08'):
     symbol = filename.split("-")[0]
@@ -23,10 +23,11 @@ for filename in os.listdir('datasets/daily_07-08'):
     df['lower_band'] = df['20sma'] - (2 * df['stddev'])
     df['upper_band'] = df['20sma'] + (2 * df['stddev'])
 
-    # Ture range
+    # Cal Ture range
     df['TR'] = abs(df['high'] - df['low'])
     df['ATR'] = df['TR'].rolling(window=20).mean()
 
+    # make colum of  upper_keltner / lower_keltner
     df['lower_keltner'] = df['20sma'] - (df['ATR'] * 1.5)
     df['upper_keltner'] = df['20sma'] + (df['ATR'] * 1.5)
 
@@ -35,21 +36,27 @@ for filename in os.listdir('datasets/daily_07-08'):
 
     df['squeeze_on'] = df.apply(in_squeeze, axis=1)
 
-    if df.iloc[-1]['squeeze_on']:
-        print(f"{symbol} is in the squeeze!!!")
+    # find day in past that squeeze_on and not in last day [-3] 3 days ago
+    if df.iloc[-3]['squeeze_on'] and not df.iloc[-1]['squeeze_on']:
+        print(f"{symbol} is coming out the squeeze ")
 
-    if symbol == "KSM":
+    # check for recent day squeeze
+    #if df.iloc[-1]['squeeze_on']:
+        #print(f"{symbol} is in the squeeze!!!")
+
+
+    if symbol == "DOGE":
         print(df)
-        eth_df = df
+        symbol_df = df
 
 
 
 # Define plot
-candlestick = go.Candlestick(x=eth_df['date'],open=eth_df['open'],high=eth_df['high'],low=eth_df['low'],close=eth_df['close'])
-upper_band = go.Scatter(x=eth_df['date'],y=eth_df['upper_band'], name='Upper Bollinger Band', line={'color':'red'})
-lower_band = go.Scatter(x=eth_df['date'],y=eth_df['lower_band'], name='Lower Bollinger Band', line={'color':'red'})
-upper_keltner = go.Scatter(x=eth_df['date'],y=eth_df['upper_keltner'], name='Upper Keltner Channel', line={'color':'blue'})
-lower_keltner = go.Scatter(x=eth_df['date'],y=eth_df['lower_keltner'], name='Lower Keltner Channel', line={'color':'blue'})
+candlestick = go.Candlestick(x=symbol_df['date'],open=symbol_df['open'],high=symbol_df['high'],low=symbol_df['low'],close=symbol_df['close'])
+upper_band = go.Scatter(x=symbol_df['date'],y=symbol_df['upper_band'], name='Upper Bollinger Band', line={'color':'red'})
+lower_band = go.Scatter(x=symbol_df['date'],y=symbol_df['lower_band'], name='Lower Bollinger Band', line={'color':'red'})
+upper_keltner = go.Scatter(x=symbol_df['date'],y=symbol_df['upper_keltner'], name='Upper Keltner Channel', line={'color':'blue'})
+lower_keltner = go.Scatter(x=symbol_df['date'],y=symbol_df['lower_keltner'], name='Lower Keltner Channel', line={'color':'blue'})
 
 
 
